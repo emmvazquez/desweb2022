@@ -87,7 +87,32 @@ class ProductosC extends CI_Controller
 
 
 		public function insertProducto2(){
-		$this->load->model('ProductosM');
+		  $config['upload_path']          = './uploads/';
+                $config['allowed_types']        = 'gif|jpg|png|jpeg';
+                $config['max_size']             = 10000;
+                $config['max_width']            = 10024;
+                $config['max_height']           = 4768;
+
+                $this->load->library('upload', $config);
+
+                if ( ! $this->upload->do_upload('userfile'))
+                {
+                        $error = array('error' => $this->upload->display_errors());
+
+                        print_r($error);
+                }
+                else
+                {
+                        $data = array('upload_data' => $this->upload->data());
+
+                        $this->load->view('upload_success', $data);
+                }
+
+
+
+
+
+		/*$this->load->model('ProductosM');
 		$data['categorias'] = $this->ProductosM->getCategorias();
 		$this->load->helper(array('form', 'url'));
 
@@ -104,7 +129,7 @@ class ProductosC extends CI_Controller
                 {
                        $this->ProductosM->insertProducto();
                        redirect(base_url('index.php/ProductosC/show'),'refresh');
-                }
+                }*/
 	}
 
 

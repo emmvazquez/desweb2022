@@ -1,5 +1,5 @@
 <div class="container">
-	
+	<?php print_r($productos) ?>
 	<a class="btn btn-success" href="<?=base_url('index.php/ProductosC/insertProducto') ?>">Agregar Producto</a>
 
 	<form action="<?=base_url('index.php/ProductosC/show') ?>" method="POST">
@@ -14,6 +14,7 @@
 			<th>Id</th>
 			<th>Nombre</th>
 			<th>Descripcion</th>
+			<th>Categoría</th>
 			<th>Costo</th>
 			<th>Operaciones</th>
 			</tr>
@@ -24,6 +25,7 @@
 					<td><?=$key->IdProducto ?></td>
 					<td><?=$key->Nombre?></td>
 					<td><?=$key->Descripcion ?></td>
+					<td><?=$key->Categoria ?></td>
 					<td><?=$key->Costo ?></td>
 					<td><a class="btn btn-success" href="<?=base_url('index.php/ProductosC/detalleProducto/').$key->IdProducto ?>">Ver detalle</a></td>
 

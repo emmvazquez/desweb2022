@@ -66,6 +66,7 @@ class ProductosC extends CI_Controller
 
 	public function insertProducto(){
 		$this->load->model('ProductosM');
+		$data['categorias'] = $this->ProductosM->getCategorias();
 		$this->load->helper(array('form', 'url'));
 
                 $this->load->library('form_validation');
@@ -74,7 +75,7 @@ class ProductosC extends CI_Controller
                 {		
                 		$this->load->view('headers/head.php');
 						$this->load->view('headers/menu.php');
-                        $this->load->view('productos/insertProducto');
+                        $this->load->view('productos/insertProducto',$data);
                         $this->load->view('headers/footer.php');
                 }
                 else
@@ -83,6 +84,30 @@ class ProductosC extends CI_Controller
                        redirect(base_url('index.php/ProductosC/show'),'refresh');
                 }
 	}
+
+
+		public function insertProducto2(){
+		$this->load->model('ProductosM');
+		$data['categorias'] = $this->ProductosM->getCategorias();
+		$this->load->helper(array('form', 'url'));
+
+                $this->load->library('form_validation');
+                $this->form_validation->set_rules('Nombre', 'Nombre', 'required');
+                if ($this->form_validation->run() == FALSE)
+                {		
+                		$this->load->view('headers/head.php');
+						$this->load->view('headers/menu.php');
+                        $this->load->view('productos/insertProducto',$data);
+                        $this->load->view('headers/footer.php');
+                }
+                else
+                {
+                       $this->ProductosM->insertProducto();
+                       redirect(base_url('index.php/ProductosC/show'),'refresh');
+                }
+	}
+
+
 
 	public function updateProducto($IdProducto){
 		$this->load->model('ProductosM');

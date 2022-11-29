@@ -36,6 +36,8 @@
 					<?php endif ?>
 					</td>
 					<td><a class="btn btn-danger" href="<?=base_url('index.php/ProductosC/updateProducto/').$key->IdProducto ?>">Editar</a></td>
+
+					<td><a class="btn btn-danger" href="<?=base_url('index.php/ProductosC/insertImagen/').$key->IdProducto ?>">Agregar Imagenes</a></td>
 				</tr>
 			<?php endforeach ?>
 

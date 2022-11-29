@@ -86,27 +86,54 @@ class ProductosC extends CI_Controller
 	}
 
 
-		public function insertProducto2(){
-		  $config['upload_path']          = './uploads/';
-                $config['allowed_types']        = 'gif|jpg|png|jpeg';
-                $config['max_size']             = 10000;
-                $config['max_width']            = 10024;
-                $config['max_height']           = 4768;
-
-                $this->load->library('upload', $config);
-
-                if ( ! $this->upload->do_upload('userfile'))
+		public function insertImagen($IdProducto){
+			 $this->load->model('ProductosM');
+			 $data['imagenes'] = $this->ProductosM->getImagenesPorProducto($IdProducto);
+		  $this->load->library('form_validation');
+                $this->form_validation->set_rules('subir', 'subir', 'required');
+                $data['IdProducto'] = $IdProducto;
+                if ($this->form_validation->run() == FALSE)
                 {
-                        $error = array('error' => $this->upload->display_errors());
-
-                        print_r($error);
+                	   $this->load->view('headers/head.php');
+			   $this->load->view('headers/menu.php');
+                        $this->load->view('productos/insertImagenProducto',$data);
+                        $this->load->view('headers/footer.php');
                 }
                 else
-                {
-                        $data = array('upload_data' => $this->upload->data());
+	                {
+	                $file_name = $IdProducto.'-'.md5(date('d-m-Y-h-mm-s'));
 
-                        $this->load->view('upload_success', $data);
+			  $config['upload_path']          = './uploads/';
+	                $config['allowed_types']        = 'png|jpeg|jpg';
+	                $config['max_size']             = 10000;
+	                $config['max_width']            = 10024;
+	                $config['max_height']           = 4768;
+	                $config['file_name'] = $file_name;
+	                $this->upload->initialize($config);
+	                $this->load->library('upload', $config);
+
+	                if ( ! $this->upload->do_upload('imagen'))
+	                {
+	                	
+	                        $error = array('error' => $this->upload->display_errors());
+
+	                        print_r($error);
+	                }
+	                else
+	                {
+	                       
+	                $this->ProductosM->insertImagen($IdProducto,$file_name.$this->upload->data('file_ext'));
+	                         redirect(base_url('index.php/ProductosC/insertImagen/'.$IdProducto),'refresh');
+	                }
+                       //
                 }
+
+
+
+
+
+
+		  
 
 
 

@@ -64,6 +64,22 @@ function getBusquedaProductos($termino){
 		$this->db->insert('Productos', $data);
  	}
 
+
+    function insertImagen($IdProducto,$file_name){
+    $data = array(
+        'IdProducto' => $IdProducto,
+        'Imagen' => $file_name
+    );
+
+    $this->db->insert('ProductoImagenes', $data);
+  }
+
+  function getImagenesPorProducto($IdProducto){
+    $this->db->where('IdProducto', $IdProducto);
+    $query = $this->db->get('ProductoImagenes');
+    return $query->result();
+  }
+
  	function updateProducto($IdProducto){
  		$data = array(
         'Nombre' => $this->input->post('Nombre'),
